@@ -36,7 +36,24 @@ public class PlayerMovement : MonoBehaviour {
 
 		rbody.MovePosition(rbody.position + movement_vector* Time.deltaTime);
 
+		PlayerBlowing ();
 
 
 	}
+
+
+	void PlayerBlowing()
+	{
+		if (Input.GetKeyDown ("space"))
+		{
+			anim.SetBool ("IsBlowing", true);
+		} 
+
+		else 
+		{
+			anim.SetBool  ("IsBlowing",false);
+		}
+
+	}
+
 }
