@@ -5,14 +5,17 @@ public class PlayerMovement : MonoBehaviour {
 
 	//Player movement control 
 	Rigidbody2D rbody;
-	Animator anim;
+	Animator animator;
+
+	public GameObject ammo;
+	public GameObject clone;
+	public Transform blowMarker;
 
 	// Use this for initialization
 	void Start () {
 
 		rbody = GetComponent<Rigidbody2D> ();
-		anim = GetComponent<Animator> ();
-
+		animator = GetComponent<Animator> ();
 	
 	}
 	
@@ -23,37 +26,45 @@ public class PlayerMovement : MonoBehaviour {
 	
 		if( movement_vector != Vector2.zero)
 		{
-
-
-			anim.SetBool  ("IsWalking",true);
-			anim.SetFloat  ("Input_X",movement_vector.x);
-			anim.SetFloat ("Input_Y",movement_vector.y);
+			animator.SetBool  ("IsWalking",true);
+			animator.SetFloat  ("Input_X",movement_vector.x);
+			animator.SetFloat ("Input_Y",movement_vector.y);
 		}
+
 		else
 		{
-			anim.SetBool  ("IsWalking", false);
+			animator.SetBool  ("IsWalking", false);
 		}
 
 		rbody.MovePosition(rbody.position + movement_vector* Time.deltaTime);
 
 		PlayerBlowing ();
 
-
 	}
 
 
 	void PlayerBlowing()
 	{
-		if (Input.GetKeyDown ("space"))
+		if (Input.GetKeyDown ("space")&& ammo != null)
 		{
-			anim.SetBool ("IsBlowing", true);
+			animator.SetBool ("IsBlowing", true);
+
+			clone = Instantiate(ammo,blowMarker.position,Quaternion.identity) as GameObject;
+			clone.transform.localScale = transform.localScale;
+
 		} 
 
 		else 
 		{
-			anim.SetBool  ("IsBlowing",false);
+			animator.SetBool  ("IsBlowing",false);
+			Destroy (clone,.8f);
+	
 		}
 
+
 	}
+
+
+	
 
 }
